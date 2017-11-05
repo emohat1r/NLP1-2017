@@ -43,8 +43,7 @@ ntags = len(t2i)
 # The parameters for our BoW-model
 dtype = torch.FloatTensor  # enable CUDA here if you like
 w = Variable(torch.randn(nwords, ntags).type(dtype), requires_grad=True)
-### YOUR CODE HERE ###
-raise NotImplementedError("TODO add bias parameters")
+b = Variable(torch.randn(ntags).type(dtype), requires_grad=True)
 
 
 # A function to calculate scores for one sentence
@@ -52,8 +51,7 @@ def calc_scores(words):
     lookup_tensor = Variable(torch.LongTensor(words))
     embed = w[lookup_tensor]
     score = torch.sum(embed, 0)
-    ### YOUR CODE HERE ###
-    raise NotImplementedError("TODO add bias")
+    score = torch.add(score, b)
     return score.view((1, -1))
 
 
@@ -80,12 +78,11 @@ for ITER in range(100):
         lr = 0.01
         w.data -= lr * w.grad.data
         ### YOUR CODE HERE ###
-        raise NotImplementedError("TODO update bias parameters")
+        b.data -= lr * b.grad.data
 
         # clear gradients for next step
         w.grad.data.zero_()
-        ### YOUR CODE HERE ###
-        raise NotImplementedError("TODO zero out bias gradients")
+        b.grad.data.zero_()
 
         
     print("iter %r: train loss/sent=%.4f, time=%.2fs" % 

@@ -45,7 +45,8 @@ class BOW(nn.Module):
     def __init__(self, vocab_size, embedding_dim):
         super(BOW, self).__init__()
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
-        self.bias = None  ### YOUR CODE HERE ###
+        self.bias = Variable(torch.randn(ntags).type(dtype), requires_grad=True)
+
         raise NotImplementedError("TODO add parameters")
 
     def forward(self, inputs):

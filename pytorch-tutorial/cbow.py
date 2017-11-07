@@ -46,14 +46,13 @@ class CBOW(nn.Module):
     def __init__(self, vocab_size, embedding_dim, output_dim):
         super(CBOW, self).__init__()
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
-        self.linear = None  ### YOUR CODE HERE ###
-        raise NotImplementedError("TODO add Linear layer")        
+        self.linear = nn.Linear(embedding_dim, ntags)
+
 
     def forward(self, inputs):
         embeds = self.embeddings(inputs)
         bow = torch.sum(embeds, 1)
-        logits = None  ### YOUR CODE HERE ###
-        raise NotImplementedError("TODO apply linear layer")        
+        logits = self.linear(bow)
         return logits
 
 

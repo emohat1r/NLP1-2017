@@ -45,16 +45,13 @@ class BOW(nn.Module):
     def __init__(self, vocab_size, embedding_dim):
         super(BOW, self).__init__()
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
-        self.bias = Variable(torch.randn(ntags).type(dtype), requires_grad=True)
-
-        raise NotImplementedError("TODO add parameters")
+        self.bias = nn.Parameter(torch.randn(ntags).type(torch.FloatTensor))
 
     def forward(self, inputs):
         embeds = self.embeddings(inputs)
         logits = torch.sum(embeds, 1)
-        ### YOUR CODE HERE ###
-        raise NotImplementedError("TODO add bias")
-        return logits
+        bow = torch.add(logits, self.bias)
+        return bow
 
 
 model = BOW(nwords, ntags)
